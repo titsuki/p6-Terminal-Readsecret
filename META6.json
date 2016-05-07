@@ -7,7 +7,9 @@
   "provides" : {
     "Term::Readsecret" : "lib/Term/Readsecret.pm6"
   },
-  "depends" : [ ],
+  "depends" : [
+    "LibraryMake"
+  ],
   "description" : "A perl6 binding of readsecret ( https://github.com/dmeranda/readsecret ) for reading secrets or passwords from a command line secretly (not being displayed)",
   "test-depends" : [ ],
   "version" : "*",
