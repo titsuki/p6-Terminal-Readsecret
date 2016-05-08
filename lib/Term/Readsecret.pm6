@@ -2,12 +2,8 @@ use v6;
 unit module Term::Readsecret;
 
 use NativeCall;
-use LibraryMake;
 
-my sub library {
-    my $so = get-vars('')<SO>;
-    return ~%?RESOURCES{"libreadsecret$so"};
-}
+my constant $library = %?RESOURCES<libraries/readsecret>.Str;
 
 my Int enum rsecret_error_ty (
     RSECRET_SUCCESS => 0,
@@ -31,9 +27,9 @@ class timespec is repr('CStruct') is export {
     has int64 $.tv_nsec;
 }
 
-my sub rsecret_get_secret_from_tty(CArray[int8], size_t, Str) returns int32 is native(&library) is export { * }
-my sub rsecret_get_secret_from_tty_timed(CArray[int8], size_t, Str, timespec) returns int32 is native(&library) is export { * }
-my sub rsecret_strerror(int32) returns Str is native(&library) is export { * }
+my sub rsecret_get_secret_from_tty(CArray[int8], size_t, Str) returns int32 is native($library) is export { * }
+my sub rsecret_get_secret_from_tty_timed(CArray[int8], size_t, Str, timespec) returns int32 is native($library) is export { * }
+my sub rsecret_strerror(int32) returns Str is native($library) is export { * }
 
 proto getsecret(Str:D $msg, |) { * }
 
