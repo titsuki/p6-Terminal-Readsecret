@@ -1,6 +1,6 @@
 use v6;
 use Test;
-use Term::Readsecret;
+use Terminal::Readsecret;
 
 subtest {
     my $timeout = timespec.new(tv_sec => 1, tv_nsec => 0);
