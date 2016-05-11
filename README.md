@@ -3,7 +3,7 @@
 NAME
 ====
 
-Term::Readsecret - A perl6 binding of readsecret ( https://github.com/dmeranda/readsecret ) for reading secrets or passwords from a command line secretly (not being displayed)
+Terminal::Readsecret - A perl6 binding of readsecret ( https://github.com/dmeranda/readsecret ) for reading secrets or passwords from a command line secretly (not being displayed)
 
 SYNOPSIS
 ========
@@ -11,14 +11,14 @@ SYNOPSIS
 EXAMPLE1
 --------
 
-    use Term::Readsecret;
+    use Terminal::Readsecret;
     my $password = getsecret("password:" );
     say "your password is: " ~ $password;
 
 EXAMPLE2
 --------
 
-    use Term::Readsecret;
+    use Terminal::Readsecret;
     my timespec $timeout .= new(tv_sec => 5, tv_nsec => 0); # set timeout to 5 sec
     my $password = getsecret("password:", $timeout);
     say "your password is: " ~ $password;
@@ -26,7 +26,7 @@ EXAMPLE2
 DESCRIPTION
 ===========
 
-Term::Readsecret is a perl6 binding of readsecret ( [https://github.com/dmeranda/readsecret](https://github.com/dmeranda/readsecret) ). Readsecret is a simple self-contained C (or C++) library intended to be used on Unix and Unix-like operating systems that need to read a password or other textual secret typed in by the user while in a text-mode environment, such as from a console or shell.
+Terminal::Readsecret is a perl6 binding of readsecret ( [https://github.com/dmeranda/readsecret](https://github.com/dmeranda/readsecret) ). Readsecret is a simple self-contained C (or C++) library intended to be used on Unix and Unix-like operating systems that need to read a password or other textual secret typed in by the user while in a text-mode environment, such as from a console or shell.
 
 METHODS
 -------
