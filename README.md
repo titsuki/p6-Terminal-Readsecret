@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/titsuki/p6-Term-Readsecret.svg?branch=master)](https://travis-ci.org/titsuki/p6-Term-Readsecret)
+[![Build Status](https://travis-ci.org/titsuki/p6-Terminal-Readsecret.svg?branch=master)](https://travis-ci.org/titsuki/p6-Terminal-Readsecret)
 
 NAME
 ====
