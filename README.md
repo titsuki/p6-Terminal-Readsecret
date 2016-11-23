@@ -39,7 +39,7 @@ METHODS
 
 Reads secrets or passwords from a command line and returns its input.
 
-NOTE: `timespec` class was removed. Use `Timespec` class instead of `timespec` class.
+NOTE: `timespec` class has been removed since version `0.0.2`. Use `Timespec` class instead of `timespec` class.
 
 AUTHOR
 ======
