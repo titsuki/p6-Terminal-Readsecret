@@ -27,44 +27,35 @@ class timespec is repr('CStruct') is export {
     has int64 $.tv_nsec;
 }
 
-my sub rsecret_get_secret_from_tty(CArray[int8], size_t, Str) returns int32 is native($library) is export { * }
-my sub rsecret_get_secret_from_tty_timed(CArray[int8], size_t, Str, timespec) returns int32 is native($library) is export { * }
+my sub rsecret_get_secret_from_tty(CArray[uint8], size_t, Str) returns int32 is native($library) is export { * }
+my sub rsecret_get_secret_from_tty_timed(CArray[uint8], size_t, Str, timespec) returns int32 is native($library) is export { * }
 my sub rsecret_strerror(int32) returns Str is native($library) is export { * }
 
 proto getsecret(Str:D $msg, |) { * }
 
 multi sub getsecret(Str:D $msg, timespec $timeout) returns Str is export {
-    my $buf = CArray[int8].new;
+    my $buf = CArray[uint8].new;
     $buf[max-secret-length] = 0;
-    my size_t $size = nativesizeof(int8) * max-secret-length;
+    my size_t $size = nativesizeof(uint8) * max-secret-length;
     my $status = rsecret_get_secret_from_tty_timed($buf, $size, $msg, $timeout);
     validate-response($status);
-    buf2secret($buf);
+    nativecast(Str, $buf)
 }
 
 multi sub getsecret(Str:D $msg) returns Str is export {
-    my $buf = CArray[int8].new;
+    my $buf = CArray[uint8].new;
     $buf[max-secret-length] = 0;
-    my size_t $size = nativesizeof(int8) * max-secret-length;
+    my size_t $size = nativesizeof(uint8) * max-secret-length;
     my $status = rsecret_get_secret_from_tty($buf, $size, $msg);
     validate-response($status);
-    buf2secret($buf);
+    nativecast(Str, $buf)
 }
 
 my sub validate-response(Int $status) returns Bool {
     if ($status != RSECRET_SUCCESS) {
-	die rsecret_strerror($status);
+        die rsecret_strerror($status);
     }
     return True;
-}
-
-my sub buf2secret(CArray[int8] $buf) {
-    my Str $secret = "";
-    loop (my $i = 0; $i < max-secret-length; $i++) {
-	last if Int.new($buf[$i]) == 0;
-	$secret = $secret ~ Int.new($buf[$i]).chr;
-    }
-    return $secret;
 }
 
 =begin pod
