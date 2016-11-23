@@ -22,18 +22,31 @@ my Int enum rsecret_error_ty (
 my constant max-secret-length = 1024;
 my constant time_t = int64;
 
-class timespec is repr('CStruct') is export {
-    has time_t $.tv_sec;
-    has int64 $.tv_nsec;
+class Timespec is repr('CStruct') is export {
+    has time_t $!tv_sec;
+    has int64 $!tv_nsec;
+
+    method tv-sec {
+        $!tv_sec
+    }
+
+    method tv-nsec {
+        $!tv_nsec
+    }
+
+    submethod BUILD(Int :$tv-sec, Int :$tv-nsec) {
+        $!tv_sec = $tv-sec;
+        $!tv_nsec = $tv-nsec;
+    }
 }
 
 my sub rsecret_get_secret_from_tty(CArray[uint8], size_t, Str) returns int32 is native($library) is export { * }
-my sub rsecret_get_secret_from_tty_timed(CArray[uint8], size_t, Str, timespec) returns int32 is native($library) is export { * }
+my sub rsecret_get_secret_from_tty_timed(CArray[uint8], size_t, Str, Timespec) returns int32 is native($library) is export { * }
 my sub rsecret_strerror(int32) returns Str is native($library) is export { * }
 
 proto getsecret(Str:D $msg, |) { * }
 
-multi sub getsecret(Str:D $msg, timespec $timeout) returns Str is export {
+multi sub getsecret(Str:D $msg, Timespec $timeout) returns Str is export {
     my $buf = CArray[uint8].new;
     $buf[max-secret-length] = 0;
     my size_t $size = nativesizeof(uint8) * max-secret-length;
@@ -75,7 +88,7 @@ Terminal::Readsecret - A perl6 binding of readsecret ( https://github.com/dmeran
 =head2 EXAMPLE2
 
        use Terminal::Readsecret;
-       my timespec $timeout .= new(tv_sec => 5, tv_nsec => 0); # set timeout to 5 sec
+       my Timespec $timeout .= new(tv-sec => 5, tv-nsec => 0); # set timeout to 5 sec
        my $password = getsecret("password:", $timeout);
        say "your password is: " ~ $password;
 
@@ -90,9 +103,11 @@ Readsecret is a simple self-contained C (or C++) library intended to be used on 
 
        proto getsecret(Str:D, |) returns Str
        multi sub getsecret(Str:D) returns Str
-       multi sub getsecret(Str:D, timespec) returns Str
+       multi sub getsecret(Str:D, Timespec) returns Str
 
 Reads secrets or passwords from a command line and returns its input.
+
+NOTE: C<timespec> class was removed. Use C<Timespec> class instead of C<timespec> class.
 
 =head1 AUTHOR
 
