@@ -107,7 +107,7 @@ Readsecret is a simple self-contained C (or C++) library intended to be used on 
 
 Reads secrets or passwords from a command line and returns its input.
 
-NOTE: C<timespec> class was removed. Use C<Timespec> class instead of C<timespec> class.
+NOTE: C<timespec> class has been removed since version C<0.0.2>. Use C<Timespec> class instead of C<timespec> class.
 
 =head1 AUTHOR
 
